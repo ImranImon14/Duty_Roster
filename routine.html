@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Duty Roster</title>
+    <link rel="icon" type="image/png" href="logo1.png">
+    <link rel="stylesheet" href="routine.css" />
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="table_section">
+        <div style="display: flex; align-items: center; justify-content: center; gap: 20px;">
+
+    <!-- Left side Logo -->
+    <img src="MBSTU_Logo1.png" alt="Logo" width="100">
+
+    <!-- Right side Text -->
+    <div style="text-align: center;">
+        <h3 id="uniTitle" style="margin: 5px 0;"></h3>
+        <h3 style="margin: 5px 0;">Department of <span id="deptTitle"></span></h3>
+        <h3 style="margin: 5px 0;">Duty Roster for Invigilators</h3>
+    </div>
+
+</div>
+<br>
+        <table>
+          <tr>
+            <!-- <th rowspan="2">Date & Day</th> -->
+            <th colspan="5">Morning (9:30AM - 12:30PM)</th>
+            <th rowspan="2" class="lunch">Date </th>
+            <th colspan="5">Afternoon (1:30PM - 4:30PM) </th>
+          </tr>
+
+          <tr>
+            <!-- <th>Date & Day</th> -->
+             <th>Room No.</th>
+            <th colspan="2">Name of the invigilators</th>
+            <th>Chief invigilator</th>
+             <th>Course Code</th>
+            <th>Course Code</th>
+            <th>Room No.</th>
+            <th colspan="2">Name of the invigilators</th>
+            <th>Chief invigilator</th>
+          </tr>
+
+       <script>
+        // console.log(typeof(openModal));
+  let examCount = localStorage.getItem("examCount") || 1;
+  let roomList = JSON.parse(localStorage.getItem("rooms")) || [];
+
+  let roomCount = roomList.length;
+
+  for (let i = 0; i < examCount; i++) {
+
+    for (let r = 0; r < roomCount; r++) {
+
+      if (r === 0) {
+
+        document.write(`
+<tr>
+
+  <td data-type="room" data-shift="morning" onclick="openModal('room', this)"></td>
+  <td data-type="guard" data-shift="morning" onclick="openModal('guard', this)"></td>
+<td data-type="guard" data-shift="morning" onclick="openModal('guard', this)"></td>
+<td rowspan="${roomCount}" data-type="invigilator" data-shift="morning" onclick="openModal('invigilator', this)"></td>
+
+
+<td rowspan="${roomCount}" data-type="course" data-shift="morning" onclick="openModal('course', this)"></td>
+<td rowspan="${roomCount}" class="dateCell" onclick="openDate(this)"></td>
+
+
+<td rowspan="${roomCount}" data-type="course" data-shift="evening" onclick="openModal('course', this)"></td>
+
+<td data-type="room" data-shift="evening" onclick="openModal('room', this)"></td>
+<td data-type="guard" data-shift="evening" onclick="openModal('guard', this)"></td>
+<td data-type="guard" data-shift="evening" onclick="openModal('guard', this)"></td>
+
+<td rowspan="${roomCount}" data-type="invigilator" data-shift="evening" onclick="openModal('invigilator', this)"></td>
+
+</tr>
+        `);
+
+      }
+      else {
+
+        document.write(`
+<tr>
+
+<td data-type="room" data-shift="morning" onclick="openModal('room', this)"></td>
+<td data-type="guard" data-shift="morning" onclick="openModal('guard', this)"></td>
+<td data-type="guard" data-shift="morning" onclick="openModal('guard', this)"></td>
+
+<td data-type="room" data-shift="evening" onclick="openModal('room', this)"></td>
+<td data-type="guard" data-shift="evening" onclick="openModal('guard', this)"></td>
+<td data-type="guard" data-shift="evening" onclick="openModal('guard', this)"></td>
+
+</tr>
+        `);
+
+      }
+
+    }
+
+  }
+</script>       
+        </table>
+        <br> <br> <br>
+        <div style="text-align:right; margin-right:40px;">
+
+    <div style="width:220px; text-align:center; display:inline-block;">
+
+        <div style="border-top:2px solid black; margin-bottom:8px;"></div>
+
+        <h5 style="margin:2px;">Chairman</h5>
+
+        <h5 style="margin:2px;">Department of ICT, MBSTU</h5>
+
+    </div>
+
+</div>
+      </div>
+
+      <div class="text_section">
+        <br /><br /><br /><br /><br /><br />
+        <h3 align="center">Teacher's Duty Summary</h3>
+
+        <table id="summaryTable">
+          <tr>
+            <th style="width: 190px">Teacher</th>
+            <th>Duty</th>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- MODAL -->
+    <div id="modal" class="modal hidden">
+      <div class="modal-box">
+        <h3>Select</h3>
+        <select id="modalSelect"></select>
+
+        <br /><br />
+
+        <button onclick="saveValue()">Save</button>
+        <button onclick="deleteValue()">Delete</button>
+        <button onclick="closeModal()">Back</button>
+      </div>
+    </div>
+
+
+    <!-- <input type="date" id="hiddenDate"> -->
+    <input type="date" id="hiddenDate" style="position: absolute; opacity: 0" />
+    <br />
+    <button onclick="downloadPDF()">Download PDF</button>
+    <!-- Extra -->
+    <br><br>
+
+<button onclick="saveJSON()">Save JSON</button>
+
+<input type="file" id="loadFile" accept=".json" style="display:none" onchange="loadJSON(event)">
+
+<button onclick="document.getElementById('loadFile').click()">Load JSON</button>
+<!-- extra -->
+
+    <script src="routine.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  </body>
+</html>

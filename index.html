@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Duty Roster</title>
+<link rel="icon" type="image/png" href="logo1.png">
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<h1 align="center">Duty Roster of Semester Exam</h1>
+<h2>University & Department</h2>
+
+        <input type="text" id="universityName" placeholder="University Name">
+
+        <input type="text" id="departmentName" placeholder="Department Name">
+
+<div class="container">
+
+        
+
+    <div class="box">
+        <h2>Add Teacher</h2>
+        <input type="text" id="teacherName" placeholder="Full Name">
+        <input type="text" id="shortName" placeholder="Short Name">
+        <button onclick="addTeacher()">Add</button>
+        <ul id="teacherList"></ul>
+    </div>
+
+    <div class="box">
+        <h2>Add Course</h2>
+        <input type="text" id="courseCode" placeholder="ICT-1101">
+        <button onclick="addCourse()">Add</button>
+        <ul id="courseList"></ul>
+    </div>
+
+    <div class="box">
+        <h2>Add Room</h2>
+        <input type="text" id="roomName" placeholder="R1">
+        <button onclick="addRoom()">Add</button>
+        <ul id="roomList"></ul>
+    </div>
+
+    <div class="box">
+        <h2>Number of Exams</h2>
+        <input type="number" id="exam_number" placeholder="Enter how many exams">
+    </div>
+
+</div>
+
+<hr>
+
+<div style="text-align:center;">
+    <button onclick="goToRoutine()">Next</button>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
