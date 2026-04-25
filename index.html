@@ -13,8 +13,10 @@
 <!-- <h2>University & Department  <button align="right">Load File</button></h2> -->
 <h2>
   University & Department
-  <button style="float:right;">Load File</button>
+  <button style="float:right;" onclick="document.getElementById('loadFile').click()">Load File</button>
 </h2>
+
+<input type="file" id="loadFile" accept=".json" style="display:none" onchange="loadJSON(event)">
 
         <input type="text" id="universityName" placeholder="University Name">
 
