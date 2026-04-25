@@ -21,11 +21,20 @@ localStorage.getItem("departmentName") || "";
 /* ===============================
    DATE
 ================================= */
+
 function openDate(cell) {
   currentCell = cell;
 
   let input = document.getElementById("hiddenDate");
   input.value = "";
+
+  // 🔥 Get clicked cell position
+  let rect = cell.getBoundingClientRect();
+
+  // 🔥 Move hidden input to that position
+  input.style.position = "absolute";
+  input.style.top = rect.top + window.scrollY + "px";
+  input.style.left = rect.left - 300 + "px";
 
   if (input.showPicker) input.showPicker();
   else input.click();
@@ -288,70 +297,70 @@ function closeModal() {
 ================================= */
 function downloadPDF() {
 
-  const { jsPDF } = window.jspdf;
-
-  let table = document.querySelector(".table_section");
+  let container = document.querySelector(".table_section");
   let lunchCell = document.querySelector(".lunch");
 
   let originalText = lunchCell.innerText;
-  lunchCell.innerText = "";
+  lunchCell.innerText = "Date";
 
-  let fileName = prompt("Enter PDF file name:", "routine");
-  if (!fileName) fileName = "routine";
+  let fileName = prompt("Enter PDF file name:", "Duty_Roster");
+  if (!fileName) fileName = "Duty_Roster";
 
-  html2canvas(table, {
-    scale: 2,
-    useCORS: true
+  html2canvas(container, {
+    scale: 2,              // 🔥 keep sharp
+    useCORS: true,
+    scrollY: -window.scrollY
   }).then((canvas) => {
 
-    let imgData = canvas.toDataURL("image/png");
+    const { jsPDF } = window.jspdf;
 
-    let pdf = new jsPDF("l", "pt", "legal");
+    let pdf = new jsPDF("l", "mm", "legal");
 
-    // 🔥 PAGE SIZE
     let pageWidth = pdf.internal.pageSize.getWidth();
     let pageHeight = pdf.internal.pageSize.getHeight();
 
-    // 🔥 MARGINS (important fix)
-    let margin = 20;
+    let margin = 10;
 
-    let usableWidth = pageWidth - margin * 2;
-
-    let imgHeight = (canvas.height * usableWidth) / canvas.width;
-
-    let heightLeft = imgHeight;
+    // 🔥 IMPORTANT: no distortion scaling
+    let imgWidth = pageWidth - margin * 2;
+    let imgHeight = (canvas.height * imgWidth) / canvas.width;
 
     let position = 0;
 
-    // first page
-    pdf.addImage(
-      imgData,
-      "PNG",
-      margin,
-      margin,
-      usableWidth,
-      imgHeight
-    );
+    while (position < canvas.height) {
 
-    heightLeft -= pageHeight;
+      let pageCanvas = document.createElement("canvas");
+      let ctx = pageCanvas.getContext("2d");
 
-    // next pages
-    while (heightLeft > 0) {
+      pageCanvas.width = canvas.width;
+      pageCanvas.height = (canvas.width * (pageHeight - margin * 2)) / imgWidth;
 
-      position -= pageHeight;
+      ctx.drawImage(
+        canvas,
+        0,
+        position,
+        canvas.width,
+        pageCanvas.height,
+        0,
+        0,
+        canvas.width,
+        pageCanvas.height
+      );
 
-      pdf.addPage();
+      let imgData = pageCanvas.toDataURL("image/png");
+
+      if (position > 0) pdf.addPage();
 
       pdf.addImage(
         imgData,
         "PNG",
         margin,
-        position + margin, // 🔥 keeps gap from top
-        usableWidth,
-        imgHeight
+        margin,
+        imgWidth,
+        pageHeight - margin * 2
       );
 
-      heightLeft -= pageHeight;
+      position += pageCanvas.height;
     }
 
     pdf.save(fileName + ".pdf");
@@ -461,6 +470,7 @@ function loadJSON(event) {
 }
 
 
+
 /* ===============================
    AFTER RELOAD RESTORE
 ================================= */
@@ -547,6 +557,8 @@ function initPage() {
 
   setTimeout(() => {
     restoreLoadedProject();
+    // 🔥 NEW PART (auto trigger from index)
+   
   }, 200);
 }
 
