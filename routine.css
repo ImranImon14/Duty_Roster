@@ -1,8 +1,11 @@
 body {
-    font-family: Arial;
+    /* font-family: "Times New Roman", serif; */
+    /* font-family: "Segoe UI", Roboto, Arial, sans-serif; */
+    font-family: Calibri;
     margin: 20px;
 }
 
+/* Layout */
 .container {
     display: flex;
     gap: 20px;
@@ -16,34 +19,70 @@ body {
     width: 20%;
 }
 
+/* Table */
 table {
     width: 100%;
     border-collapse: collapse;
-    table-layout: fixed;   /* 🔥 MOST IMPORTANT */
+    table-layout: fixed;
 }
 
+/* Cell */
 td, th {
     border: 1px solid black;
     text-align: center;
     vertical-align: middle;
 
-    height: 15px;        /* 🔥 row height fix */
-    overflow: hidden;    /* 🔥 overflow prevent */
+    height: 18px;          /* 🔥 realistic row height */
+    line-height: 1;        /* 🔥 tight text */
+    padding: 2px;          /* 🔥 compact spacing */
+    overflow: hidden;
 }
 
-/* Lunch FIXED */
+/* Column Width Control */
+td[data-type="course"] {
+    width: 100px;
+}
 
-  /* .lunch {
-    writing-mode: sideways-rl;
-   
-    transform: rotate(180deg);
-}  */ 
+td[data-type="room"] {
+    width: 50px;  /* 🔥 PDF match */
+}
 
-/* MODAL */
+td[data-type="guard"] {
+    width: 70px;
+}
+
+td[data-type="invigilator"] {
+    width: 90px;
+}
+
+.dateCell {
+    width: 120px;
+}
+
+/* Text control */
+td {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 10px;   /* 🔥 readable + compact */
+}
+
+th {
+    font-size: 11px;
+    font-weight: bold;
+}
+
+/* Hover effect (optional but pro look) */
+tr:hover {
+    background: #f2f2f2;
+}
+
+/* Modal */
 .modal {
     position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background: rgba(0,0,0,0.5);
 }
 
@@ -58,40 +97,13 @@ td, th {
     padding: 20px;
     border-radius: 10px;
 }
+
+/* Hidden date input */
 #hiddenDate {
-    position: fixed;
-    top: 0;
-    left: 0;
+    position: absolute; /* fixed ❌ */
     opacity: 0;
     pointer-events: none;
 }
-td[data-type="course"] {
-    width: 100px;
-}
-
-td[data-type="room"] {
-    width: 60px;
-}
-
-td[data-type="guard"] {
-    width: 80px;
-}
-
-td[data-type="invigilator"] {
-    width: 100px;
-}
-
-.dateCell {
-    width: 120px;
-}
-td {
-    white-space: nowrap;     /* এক লাইনে রাখবে */
-    text-overflow: ellipsis; /* বেশি হলে ... */
-}
-td {
-    font-size: 11px;
-    padding: 5px;
-}
-th {
-    font-size: 11px ;
+.table_section {
+  page-break-inside: avoid;
 }
