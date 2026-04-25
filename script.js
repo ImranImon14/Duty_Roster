@@ -72,6 +72,7 @@ function deleteRoom(index) {
     renderRooms();
 }
 
+
 /* RENDER */
 function renderTeachers() {
     let list = document.getElementById("teacherList");
@@ -148,6 +149,7 @@ function goToRoutine() {
 
     window.location.href = "routine.html";
 }
+
 
 /* INITIAL */
 renderTeachers();
